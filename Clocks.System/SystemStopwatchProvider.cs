@@ -3,6 +3,10 @@ using System.Diagnostics;
 
 namespace Clocks
 {
+    /// <summary>
+    /// System built-in stopwatch provider implemented by <seealso cref="Stopwatch"/>
+    /// </summary>
+    /// <seealso cref="Clocks.IStopwatchProvider{System.Int64}" />
     public class SystemStopwatchProvider : IStopwatchProvider<long>
     {
         public bool IsHighResolution => Stopwatch.IsHighResolution;

@@ -3,6 +3,10 @@ using System.Diagnostics;
 
 namespace Clocks
 {
+    /// <summary>
+    /// System built-in stopwatch implemented by <seealso cref="Stopwatch"/>
+    /// </summary>
+    /// <seealso cref="Clocks.IStopwatch" />
     internal sealed class SystemStopwatch : IStopwatch
     {
         private readonly Stopwatch stopwatch;
