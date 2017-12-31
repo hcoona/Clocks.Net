@@ -6,9 +6,12 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E3B579FF-547C-4A69-A610-AB0B72732E09}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
 		common.props = common.props
+		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 		version.json = version.json
+		version.props = version.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clocks.System", "Clocks.System\Clocks.System.csproj", "{BF86A680-5250-4387-BBED-A1A680BFBFC2}"
