@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\common.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net20;netstandard1.0</TargetFrameworks>
+    <RootNamespace>Clocks</RootNamespace>
+  </PropertyGroup>
+
+</Project>

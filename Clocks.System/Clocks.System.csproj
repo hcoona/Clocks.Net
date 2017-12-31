@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\common.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net20;net45;netstandard1.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clocks.Abstraction\Clocks.Abstraction.csproj" />
+  </ItemGroup>
+
+</Project>
