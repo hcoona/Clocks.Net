@@ -16,6 +16,11 @@ namespace Clocks
             return new SystemStopwatch(new Stopwatch());
         }
 
+        public long GetNextTimestamp(long from, TimeSpan interval)
+        {
+            return from + (long)Math.Round(interval.TotalSeconds * Stopwatch.Frequency);
+        }
+
         public long GetTimestamp()
         {
             return Stopwatch.GetTimestamp();
