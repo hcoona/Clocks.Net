@@ -54,7 +54,7 @@ namespace Clocks
                 else
                 {
                     var next = timepoint + 1;
-                    if (current == Interlocked.CompareExchange(ref counter, current, next))
+                    if (current == Interlocked.CompareExchange(ref counter, next, current))
                     {
                         return next;
                     }

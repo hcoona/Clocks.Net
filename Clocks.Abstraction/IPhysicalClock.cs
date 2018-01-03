@@ -6,10 +6,10 @@ namespace Clocks
     /// Basic interface for a physical clock
     /// <para>Physical clock could be regarded as a logical clock</para>
     /// </summary>
-    /// <typeparam name="T">The concrate type of time point</typeparam>
+    /// <typeparam name="T">The concrete type of time point</typeparam>
     /// <seealso cref="Clocks.ILogicalClock{T}" />
     public interface IPhysicalClock<T> : ILogicalClock<T>
-        where T : IComparable, IComparable<T>, IEquatable<T>
+        where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
         /// Gets a value indicating whether this instance is high resolution.
@@ -31,7 +31,7 @@ namespace Clocks
         /// Parses the time point to readable type <seealso cref="System.DateTime"/>.
         /// </summary>
         /// <param name="timepoint">The timepoint.</param>
-        /// <returns>The readable type <seealso cref="System.DateTime"/> representing the givin time point.</returns>
+        /// <returns>The readable type <seealso cref="System.DateTime"/> representing the given time point.</returns>
         DateTime ParseTimePoint(T timepoint);
     }
 }
