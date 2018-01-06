@@ -6,7 +6,9 @@ namespace Clocks
 {
     public class IntervalTreeClock : ILogicalClock<Stamp>
     {
-        internal Stamp stamp;
+        protected Stamp stamp;
+
+        public IntervalTreeClock() : this(new Stamp()) { }
 
         public IntervalTreeClock(Stamp intialStamp)
         {
@@ -15,6 +17,7 @@ namespace Clocks
 
         public Stamp Now => stamp.Peek();
 
+        [Obsolete("Use ILogicalClock<long>.Increment instead")]
         public Stamp Increment()
         {
             while (true)
@@ -49,7 +52,7 @@ namespace Clocks
                 new IntervalTreeClock(s3),
                 new IntervalTreeClock(s4));
         }
-
+        
         public Stamp Join(IntervalTreeClock other)
         {
             while (true)
@@ -59,6 +62,43 @@ namespace Clocks
                 if (originStamp == Interlocked.CompareExchange(ref stamp, newStamp, originStamp))
                 {
                     return newStamp;
+                }
+            }
+        }
+
+        public Stamp Join(Stamp other)
+        {
+            while (true)
+            {
+                var originStamp = stamp;
+                var newStamp = originStamp.Join(other);
+                if (originStamp == Interlocked.CompareExchange(ref stamp, newStamp, originStamp))
+                {
+                    return newStamp;
+                }
+            }
+        }
+
+        void ILogicalClock<Stamp>.Increment()
+        {
+#pragma warning disable CS0618 // 类型或成员已过时
+            this.Increment();
+#pragma warning restore CS0618 // 类型或成员已过时
+        }
+
+        /// <summary>
+        /// Adjust internal counter because know about other logical time. It use <code>Receive</code> method of <seealso cref="Stamp"/>.
+        /// </summary>
+        /// <param name="other"></param>
+        void ILogicalClock<Stamp>.Witness(Stamp other)
+        {
+            while (true)
+            {
+                var originStamp = stamp;
+                var newStamp = originStamp.Receive(other);
+                if (originStamp == Interlocked.CompareExchange(ref stamp, newStamp, originStamp))
+                {
+                    break;
                 }
             }
         }

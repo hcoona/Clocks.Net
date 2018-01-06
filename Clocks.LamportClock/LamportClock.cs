@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 
 namespace Clocks
@@ -9,7 +10,7 @@ namespace Clocks
     /// <seealso cref="Clocks.ILogicalClock{System.Int64}" />
     public class LamportClock : ILogicalClock<long>
     {
-        private long counter;
+        protected long counter;
 
         public LamportClock() : this(0) { }
 
@@ -29,6 +30,7 @@ namespace Clocks
         /// <para><strong>IR1.</strong>Each process P<sub>i</sub> increments C<sub>i</sub> between any two successive events.</para>
         /// </summary>
         /// <returns>The origin counter value.</returns>
+        [Obsolete("Use ILogicalClock<long>.Increment instead")]
         public long Increment()
         {
             return Interlocked.Increment(ref counter);
@@ -42,6 +44,7 @@ namespace Clocks
         /// </summary>
         /// <param name="timepoint">The timepoint.</param>
         /// <returns>The new counter value.</returns>
+        [Obsolete("Use ILogicalClock<long>.Witness instead")]
         public long Witness(long timepoint)
         {
             while (true)
@@ -60,6 +63,20 @@ namespace Clocks
                     }
                 }
             }
+        }
+
+        void ILogicalClock<long>.Increment()
+        {
+#pragma warning disable CS0618
+            this.Increment();
+#pragma warning restore CS0618
+        }
+
+        void ILogicalClock<long>.Witness(long other)
+        {
+#pragma warning disable CS0618
+            this.Witness(other);
+#pragma warning restore CS0618
         }
     }
 }
