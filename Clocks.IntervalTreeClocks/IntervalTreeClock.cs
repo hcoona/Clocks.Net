@@ -53,31 +53,9 @@ namespace Clocks
                 new IntervalTreeClock(s4));
         }
         
-        public Stamp Join(IntervalTreeClock other)
-        {
-            while (true)
-            {
-                var originStamp = stamp;
-                var newStamp = originStamp.Join(other.stamp);
-                if (originStamp == Interlocked.CompareExchange(ref stamp, newStamp, originStamp))
-                {
-                    return newStamp;
-                }
-            }
-        }
+        public Stamp Join(IntervalTreeClock other) => InterlockedUpdate(ref stamp, originStamp => originStamp.Join(other.stamp));
 
-        public Stamp Join(Stamp other)
-        {
-            while (true)
-            {
-                var originStamp = stamp;
-                var newStamp = originStamp.Join(other);
-                if (originStamp == Interlocked.CompareExchange(ref stamp, newStamp, originStamp))
-                {
-                    return newStamp;
-                }
-            }
-        }
+        public Stamp Join(Stamp other) => InterlockedUpdate(ref stamp, originStamp => originStamp.Join(other));
 
         void ILogicalClock<Stamp>.Increment()
         {
@@ -92,13 +70,18 @@ namespace Clocks
         /// <param name="other"></param>
         void ILogicalClock<Stamp>.Witness(Stamp other)
         {
+            InterlockedUpdate(ref stamp, originStamp => originStamp.Receive(other));
+        }
+
+        private static T InterlockedUpdate<T>(ref T location, Func<T, T> newValueFunc) where T: class
+        {
             while (true)
             {
-                var originStamp = stamp;
-                var newStamp = originStamp.Receive(other);
-                if (originStamp == Interlocked.CompareExchange(ref stamp, newStamp, originStamp))
+                var originValue = location;
+                var newValue = newValueFunc(originValue);
+                if (originValue == Interlocked.CompareExchange(ref location, newValue, originValue))
                 {
-                    break;
+                    return newValue;
                 }
             }
         }
