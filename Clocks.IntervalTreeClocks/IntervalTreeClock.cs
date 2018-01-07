@@ -73,7 +73,9 @@ namespace Clocks
             InterlockedUpdate(ref stamp, originStamp => originStamp.Receive(other));
         }
 
-        private static T InterlockedUpdate<T>(ref T location, Func<T, T> newValueFunc) where T: class
+        public Stamp IncrementAndGet() => InterlockedUpdate(ref stamp, originStamp => originStamp.Event());
+
+        private static T InterlockedUpdate<T>(ref T location, Func<T, T> newValueFunc) where T : class
         {
             while (true)
             {

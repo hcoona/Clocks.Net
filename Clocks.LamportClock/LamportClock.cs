@@ -29,9 +29,14 @@ namespace Clocks
         /// Increments the internal counter.
         /// <para><strong>IR1.</strong>Each process P<sub>i</sub> increments C<sub>i</sub> between any two successive events.</para>
         /// </summary>
-        /// <returns>The origin counter value.</returns>
-        [Obsolete("Use ILogicalClock<long>.Increment instead")]
+        /// <returns>The incremented counter value.</returns>
+        [Obsolete("Use ILogicalClock<long>.IncrementAndGet instead")]
         public long Increment()
+        {
+            return Interlocked.Increment(ref counter);
+        }
+        
+        public long IncrementAndGet()
         {
             return Interlocked.Increment(ref counter);
         }
