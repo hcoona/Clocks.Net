@@ -2,7 +2,9 @@
 
 This project aim to provide an abstract layer to time related facilities in C#.
 
-## Claasification ##
+**Moved to https://github.com/hcoona/OneDotNet/tree/master/Clocks.Net**
+
+## Classification ##
 
 People use clock in 2 different ways:
 
